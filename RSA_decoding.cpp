@@ -15,10 +15,32 @@ long long N; // 公開鍵N
 // Input: なし(Nのみを用いる)
 // Output: Nの素因数p, q (ただしp<q)
 long long Factoring(){
-  if(N%2==0){return 2;}
-  for(long long i=3; i*i<=N; i+=2){
-    if(N%i == 0){return i;}
+
+  // この方法でも可能であるが、時間計算量が大きくなるので他の方法を採用する。
+  // if(N%2==0){return 2;}
+  // for(long long i=3; i*i<=N; i+=2){
+  //   if(N%i == 0){return i;}
+  // }
+
+  // 最適化するためにEratosthenesの篩の考え方を用いた。
+  // 2,3,5を素因子にもつ30の周期について考えると、素数になりうるのは
+  //   30*n + a (a = 1, 7, 11, 13, 17, 23, 29)
+  // となる。したがって、2,3,5の倍数でないかをはじめに調べ、その後は上記のaについて調べる。
+  if(N%2 == 0){ return 2; }
+  else if(N%3 == 0){ return 3; }
+  else if(N%5 == 0){ return 5; }
+  for(long long i = 0; i*i*30 <= N; i++){
+    if(N%(30*i+1) == 0 && i != 0){ return 30*i+1; } // i=0の時、1となるので不適
+    else if(N%(30*i+7) == 0){ return 30*i+7; }
+    else if(N%(30*i+11) == 0){ return 30*i+11; }
+    else if(N%(30*i+13) == 0){ return 30*i+13; }
+    else if(N%(30*i+17) == 0){ return 30*i+17; }
+    else if(N%(30*i+19) == 0){ return 30*i+19; }
+    else if(N%(30*i+23) == 0){ return 30*i+23; }
+    else if(N%(30*i+29) == 0){ return 30*i+29; }
   }
+
+  // 素因数分解できなかった場合
   cout << "ERROR: Factoring is failed." << endl;
   return 0;
 }
@@ -78,6 +100,7 @@ int main(void){
   // Nの素因数分解
   p = Factoring();
   q = N/p;
+  cout << "p: " << p << " q: " << q << endl;
 
   // 復号鍵dを求める
   long long phi_n = (p-1)*(q-1);
