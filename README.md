@@ -11,7 +11,7 @@ RSA暗号を素因数分解を用いることで、公開鍵のみから解読�
 平文 m  
 
 * cipher.txt  
-ターミナルで実行するときに**./a.out < cipher.txt**　と実行すると
+ターミナルで実行するときに**./a.out < cipher.txt**と実行すると
 ```
 The decoding key is 755432125.
 The plain text is 23057.
